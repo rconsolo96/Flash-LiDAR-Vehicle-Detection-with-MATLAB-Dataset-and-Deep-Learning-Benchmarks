@@ -5,12 +5,12 @@
 ## Point Cloud Processing, Dataset Download, Deep Learning Models
 [![View <File Exchange Title> on File Exchange](https://www.mathworks.com/matlabcentral/images/matlab-file-exchange.svg)](https://www.mathworks.com/matlabcentral/fileexchange/182842-flash-lidar-vehicle-detection) 
 
-This repository provides code and workflows to test several state-of-the-art vehicle detection deep learning algorithms —including YOLOX, SalsaNext, RandLA-Net, and VoxelRCNN— on a Flash Lidar dataset. The models are applied to 2D, 3D, and 5-channel data, supporting comprehensive benchmarking and research in autonomous vehicle perception. Also included are some point cloud processing techniques applied to the Flash Lidar to perform operations such as converting the raw data to images and point clouds, converting the ground truth bounding boxes to 2D/3D segmentation masks and cuboids, point cloud registration to created 3D assets of the vehicles and their reconstructed meshes, tracking algorithms to improve vehicle detections on video data.  
+This repository provides code and workflows to test several state-of-the-art vehicle detection deep learning algorithms —including YOLOX, SalsaNext, and RandLA-Net— on a Flash Lidar dataset. The models are applied to 2D, 3D, and 5-channel data, supporting comprehensive benchmarking and research in autonomous vehicle perception. Also included are some point cloud processing techniques applied to the Flash Lidar to perform operations such as converting the raw data to images and point clouds, converting the ground truth bounding boxes to 2D/3D segmentation masks and cuboids, point cloud registration to create 3D assets of the vehicles and their reconstructed meshes, tracking algorithms to improve vehicle detections on video data.  
 
 ## Dataset Description
 This repository uses a Public Domain dataset collected specifically for benchmarking vehicle detection algorithms using a Flash LiDAR sensor. The dataset consists of 35 sequences featuring eight different vehicles—including six four-wheel vehicles and a small plane. Each sequence was captured using a 128x128 Flash LiDAR sensor, recording range and intensity information for every detected point.
 
-The dataset is available in three distinct formats to support a variety of deep learning models:
+The dataset is available in four distinct formats to support a variety of deep learning models:
 
 ### 2D Image Format:
 
@@ -58,7 +58,7 @@ Download 5-Channel Data (https://ssd.mathworks.com/supportfiles/lidar/data/Flash
 Raw Data (MAT arrays [range, intensity] + bounding box + cuboids + mask ground truth)
 Download Raw Data (https://ssd.mathworks.com/supportfiles/lidar/data/FlashLidar/Data_Raw.tar)
 
-Note that this dataset is very large and it can take several minutes to hours to download the compressed folders using the links above
+Note that this dataset is very large and it can take several minutes to hours, depending on internet speed, to download the compressed folders using the links above.
 
 ### Additional information about set up
 In order to run the examples in this repo you will need to install the MATLAB® products listed below.
@@ -93,10 +93,6 @@ Required data: Download the 5-Channel Multi-Channel Image Format dataset (128x12
 
 "RandLANet_SemanticSegmentation/" 
 Provides code and scripts for the RandLA-Net segmentation model, designed for processing point cloud (PCD) data.
-Required data: Download the Point Cloud Format dataset (point cloud files with location and intensity information).
-
-"VoxelRCNN_ObjectDetection/" 
-Provides code and scripts for the VoxelRCNN detection model, designed for processing point cloud (PCD) data.
 Required data: Download the Point Cloud Format dataset (point cloud files with location and intensity information).
 
 "PreProcessingScripts/" 
