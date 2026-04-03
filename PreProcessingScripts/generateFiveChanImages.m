@@ -1,4 +1,6 @@
 function generateFiveChanImages(dataFolder,imagesFolder)
+% Function that describes the creation of the 5 Channel images used to
+% train the SalsaNext model
 
 if ~exist(imagesFolder,'dir')
     mkdir(imagesFolder);
