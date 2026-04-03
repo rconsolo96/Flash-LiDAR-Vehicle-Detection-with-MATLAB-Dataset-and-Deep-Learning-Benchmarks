@@ -3,7 +3,7 @@ function [data] = augmentData(A)
 % flipping and scaling to pairs of images and bounding boxes. Boxes that get
 % scaled outside the bounds are clipped if the overlap is above 0.25.
 %
-% Copyright 2022 The MathWorks, Inc.
+% Copyright 2026 The MathWorks, Inc.
 
 data = cell(size(A));
 for ii = 1:size(A,1)

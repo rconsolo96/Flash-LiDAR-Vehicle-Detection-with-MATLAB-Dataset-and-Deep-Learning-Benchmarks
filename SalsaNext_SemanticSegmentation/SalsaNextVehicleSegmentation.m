@@ -1,4 +1,4 @@
-%% Train SalsaNext Model for Vehicle Detection in Flash Lidar Data
+%% Train SalsaNext Model for Vehicle Segmentation with Flash LiDAR Data
 
 %% Load Pretrained Model
 net = load('SalsaNext_Randomized.mat').net; 
@@ -29,7 +29,6 @@ numClasses = numel(classNames);
 
 % Specify label IDs from 1 to the number of classes.
 labelIDs = 0 : numClasses-1;
-
 pxds = pixelLabelDatastore(labelsFolder, classNames, labelIDs, "IncludeSubfolders",true);
 
 %% Prepare Training, Validation, and Test Sets
@@ -47,7 +46,7 @@ inputSize = [128, 128, 5];
 net = replaceLayer(net, 'Input_input.1', imageInputLayer(inputSize, 'Name', 'Input_input.1', 'Normalization', 'none'));
 net = replaceLayer(net, 'Conv_191', convolution2dLayer([1,1], numClasses, 'Name', 'Conv_191'));
 
-%% % Define training options. 
+%% Define training options. 
 options = trainingOptions('sgdm', ...
     'LearnRateSchedule','piecewise',...
     'LearnRateDropPeriod',1,...
@@ -67,7 +66,7 @@ options = trainingOptions('sgdm', ...
 
 
 %% Train the network
-doTraining = true;
+doTraining = false;
 
 if doTraining
     % Set weights to give more importance to vehicle classes (#3-10) over
