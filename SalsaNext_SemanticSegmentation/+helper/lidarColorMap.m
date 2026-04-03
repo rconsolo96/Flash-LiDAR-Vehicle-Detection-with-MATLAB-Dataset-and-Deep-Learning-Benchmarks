@@ -1,7 +1,7 @@
 function cmap = lidarColorMap()
 % Lidar color map for the pandaset classes
 
-% Copyright 2021 The MathWorks, Inc
+% Copyright 2026 The MathWorks, Inc
 
 cmap = [[30,30,30];      % UnClassified
         [0,255,0];       % Vegetation

@@ -27,7 +27,7 @@ classNames = ["Undefined"
 
 numClasses = numel(classNames);
 
-% Specify label IDs from 1 to the number of classes.
+% Specify label IDs from 0 to the number of classes.
 labelIDs = 0 : numClasses-1;
 pxds = pixelLabelDatastore(labelsFolder, classNames, labelIDs, "IncludeSubfolders",true);
 
@@ -73,20 +73,36 @@ if doTraining
     % background and undefined classes (#1-2)
     weights = [0.02 0.02 0.12 0.12 0.12 0.12 0.12 0.12 0.12 0.12]; 
     [trainedNet,info] = trainnet(dsTrain,net, @(Y,T)crossentropy(Y,T,weights,WeightsFormat="UC"),options);
-    save('SalsaNext_Trained.mat', 'trainedNet');
+    modelName = "SalsaNext_Trained_" +string(datetime)+ ".mat";
+    save(modelName, 'trainedNet');
 else
     load("SalsaNext_Trained.mat","trainedNet");
 end
 
-%% Run model on Test data
+%% Test SalsaNext Segmentation Model
+% Run model on a single test image
+testImg = read(imdsTest);
+testLabels = read(pxdsTest);
+predictedResult = semanticseg(testImg,trainedNet);
+tiledlayout(1, 2);
+% Display Ground Truth
+nexttile
+helper.displayLidarOverlayImage(testImg, testLabels{1}, classNames);
+title('Semantic Segmentation Ground Truth');
+% Display Predicted Output
+nexttile
+helper.displayLidarOverlayImage(testImg, predictedResult, classNames);
+title('Semantic Segmentation Prediction');
+% reset(imdsTest); reset(pxdsTest)%To restart from first image
+
+%% Run model on Entire Test data
 testResults = semanticseg(imdsTest, trainedNet, "Classes", classNames);
 
 %%  Evaluate metrics
 metrics = evaluateSemanticSegmentation(testResults,pxdsTest);
 
-% Visualize per class metrics and confusion matrix
+% Visualize per class metrics
 metrics.ClassMetrics
-metrics.ConfusionMatrix
 
 %% Visualize results of test data - Image Format
 figure('Position', [50 50 1800 900])
@@ -133,14 +149,14 @@ while hasdata(imdsTest)
     ptCloud_GroundTruth = pointCloud(reshape(testImg(:,:,1:3),[],3),"Color",colormap_GroundTruth);
     nexttile
     pcshow(ptCloud_GroundTruth);
-    view(90,0)
+    view(-90,0)
     title('Semantic Segmentation Ground Truth');
     % Display Predicted Output 
     colormap_Predicted = cmap(single(predictedResult),:);
     ptCloud_Predicted = pointCloud(reshape(testImg(:,:,1:3),[],3),"Color",colormap_Predicted);
     nexttile
     pcshow(ptCloud_Predicted);
-    view(90,0)
+    view(-90,0)
     title('Semantic Segmentation Prediction');
 
     drawnow

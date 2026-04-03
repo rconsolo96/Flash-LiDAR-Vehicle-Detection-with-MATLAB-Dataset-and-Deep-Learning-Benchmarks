@@ -86,7 +86,7 @@ options = trainingOptions("adam",...
     LearnRateSchedule="piecewise", ...
     LearnRateDropFactor=0.98, ...
     LearnRateDropPeriod=1, ... 
-    MiniBatchSize=128,...
+    MiniBatchSize=128,... %Adjust based on GPU memory
     L2Regularization=0.0005,...
     MaxEpochs=30,...
     BatchNormalizationStatistics="moving",...
@@ -110,6 +110,8 @@ doTraining = false;
 if doTraining        
     % Train the YOLO-X detector.
     [YOLODetector,info] = trainYOLOXObjectDetector(trainingData,YOLODetector,options);
+    modelName = "YOLOXDetector_Trained_" +string(datetime)+ ".mat";
+    save(modelName, 'YOLODetector');
 else
     % Load pretrained detector for the example.
     load("YOLOXDetector_Trained.mat");
@@ -174,11 +176,8 @@ reset(testData);
 figure
 for i = 1:height(detectionResults)
     data = read(testData);
+    [bboxPred,scorePred,labelPred] = detect(YOLODetector,data{1});
 
-    bboxPred = detectionResults.Boxes{i};
-    scorePred = detectionResults.Scores{i};
-    labelPred = detectionResults.Labels{i};
-    
     annotatedImage = helper.addDetectionAnnotation(data, bboxPred, labelPred, scorePred);
     
     imshow(annotatedImage)
